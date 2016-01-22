@@ -2,6 +2,7 @@ package org.usfirst.frc.team2847.robot;
 
 import org.usfirst.frc.team2847.robot.commands.KickBallCommand;
 import org.usfirst.frc.team2847.robot.commands.ShootCommand;
+import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -27,7 +28,8 @@ public class OI {
 			pullButton = new JoystickButton(fancyStick, RobotMap.pullButton),
 			kickBallButton = new JoystickButton(fancyStick, RobotMap.kickBallButton),
 			liftUpButton = new JoystickButton(fancyStick, RobotMap.anglerUpButton),
-			liftDropButton = new JoystickButton(fancyStick, RobotMap.anglerDownButton);
+			liftDropButton = new JoystickButton(fancyStick, RobotMap.anglerDownButton),
+			autoTargetButton = new JoystickButton(fancyStick, RobotMap.autoTargetButton);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -40,6 +42,7 @@ public class OI {
 		shootButton.whileHeld(new ShootCommand(1));
 		pullButton.whileHeld(new ShootCommand(-1));
 		kickBallButton.whileHeld(new KickBallCommand());
+		autoTargetButton.whenPressed(new VisionCommand(RobotMap.targetArea));
 	}
 
 	public double getLeftJoyY() {

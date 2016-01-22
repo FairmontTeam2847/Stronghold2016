@@ -41,7 +41,14 @@ public class RobotMap {
 	public static int anglerDownButton = 3;
 	public static int anglerUpButton = 4;
 	public static int kickBallButton = 5;
+	public static int autoTargetButton = 6;
 
 	// Sensors
+
+	// PID TUNE
+	public static int kP = 1;
+	public static int kI = 1;
+	public static int kD = 1;
+	public static int targetArea = 3000;
 
 }
