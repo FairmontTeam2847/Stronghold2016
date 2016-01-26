@@ -1,18 +1,41 @@
 package org.usfirst.frc.team2847.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team2847.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
  *
  */
-public class Angler extends Subsystem {
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+public class Angler extends PIDSubsystem {
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
+	// Initialize your subsystem here
+	Talon windowMotor = new Talon(RobotMap.anglerWindowMotor);
+
+	public Angler() {
+		super("Drivetrain", RobotMap.kAnglerP, RobotMap.kAnglerI, RobotMap.kAnglerD);
+		// Use these to get going:
+		// setSetpoint() - Sets where the PID controller should move the system
+		// to
+		// enable() - Enables the PID controller.
+
+	}
+
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
+
+	protected double returnPIDInput() {
+		// Return your input value for the PID loop
+		// e.g. a sensor, like a potentiometer:
+		// yourPot.getAverageVoltage() / kYourMaxVoltage;
+		return 0.0;
+	}
+
+	protected void usePIDOutput(double output) {
+		// Use output to drive your system, like a motor
+		// e.g. yourMotor.set(output);
+	}
 }
-

@@ -13,17 +13,26 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 public class Drivetrain extends PIDSubsystem {
 
 	// Initialize your subsystem here
-	double[] areas = {};
+	double[] greenAreasArray = {};
+	double[] greenXArray = {};
+	double[] greenYArray = {};
+
 	double maxArea = 0;
+	double greenX = 0;
+	double greenY = 0;
+
+	int arrayNum = 0;
+
+	boolean returnAreaType;
 
 	public Drivetrain() {
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system
 		// to
 		// enable() - Enables the PID controller.
-		super("Drivetrain", RobotMap.kP, RobotMap.kI, RobotMap.kD);
-		setAbsoluteTolerance(500);
-		Robot.table.putNumberArray("area", areas);
+		super("Drivetrain", RobotMap.kDriveP, RobotMap.kDriveI, RobotMap.kDriveD);
+		setPercentTolerance(5.0);
+		Robot.table.putNumberArray("area", greenAreasArray);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -49,30 +58,57 @@ public class Drivetrain extends PIDSubsystem {
 	 * target this should filter out any minor interference in the camera
 	 */
 	public void findMaxArea() {
-		Robot.table.putNumberArray("area", areas);
-		for (int counter = 1; counter < areas.length; counter++) {
-			if (areas[counter] > maxArea) {
-				maxArea = areas[counter];
+		Robot.table.getNumberArray("area", greenAreasArray);
+		for (int counter = 0; counter < greenAreasArray.length; counter++) {
+			if (greenAreasArray[counter] > maxArea) {
+				maxArea = greenAreasArray[counter];
+				arrayNum = counter;
 			}
 		}
 		System.out.println(maxArea);
 	}
 
 	public void updateArea() {
-		Robot.table.putNumberArray("area", areas);
+		Robot.table.getNumberArray("area", greenAreasArray);
 		findMaxArea();
+	}
+
+	public void useCenter() {
+		this.updateArea();
+		Robot.table.getNumberArray("centerX", greenXArray);
+		Robot.table.putNumberArray("centerY", greenYArray);
+		greenX = greenXArray[arrayNum];
+		greenY = greenYArray[arrayNum];
+	}
+
+	double offsetX;
+
+	public double offsetCalc() {
+		this.useCenter();
+		offsetX = 320 - greenX;
+		return offsetX;
+	}
+
+	public void setReturnType(boolean type) {
+		returnAreaType = type;
 	}
 
 	protected double returnPIDInput() {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-		return maxArea;
+		return greenY;
 	}
 
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-		this.tankDrive(output, output);
+		if (offsetCalc() > 0) {
+			this.tankDrive(output * (greenX / 320), output);
+		} else if (offsetCalc() < 0) {
+			this.tankDrive(output, output * (greenX / 320));
+		} else {
+			this.tankDrive(output, output);
+		}
 	}
 }

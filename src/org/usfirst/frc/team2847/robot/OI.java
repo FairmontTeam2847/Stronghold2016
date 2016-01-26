@@ -39,10 +39,10 @@ public class OI {
 	// Once you have a button, it's trivial to bind it to a button in one of
 	// three ways:
 	public OI() {
-		shootButton.whileHeld(new ShootCommand(1));
-		pullButton.whileHeld(new ShootCommand(-1));
+		shootButton.whileHeld(new ShootCommand(RobotMap.shootSpeed));
+		pullButton.whileHeld(new ShootCommand(-RobotMap.shootSpeed));
 		kickBallButton.whileHeld(new KickBallCommand());
-		autoTargetButton.whenPressed(new VisionCommand(RobotMap.targetArea));
+		autoTargetButton.whenPressed(new VisionCommand(RobotMap.setpointValue));
 	}
 
 	public double getLeftJoyY() {

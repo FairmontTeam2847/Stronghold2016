@@ -46,9 +46,17 @@ public class RobotMap {
 	// Sensors
 
 	// PID TUNE
-	public static int kP = 1;
-	public static int kI = 1;
-	public static int kD = 1;
-	public static int targetArea = 3000;
+	public static double kDriveP = 0.5;
+	public static double kDriveI = 0;
+	public static double kDriveD = 0.33;
+	public static double kAnglerP = 0.5;
+	public static double kAnglerI = 0;
+	public static double kAnglerD = 0.33;
+	public static int setpointValue = 300;
+	public static double armSetpointHigh = 25;
+	public static double armSetpointLow = -12;
+	public static double armSetpointFlat = 0;
 
+	// SPEEDS
+	public static double shootSpeed = 1;
 }
