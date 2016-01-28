@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2847.robot;
 
+import org.usfirst.frc.team2847.robot.commands.AnglerCommand;
+import org.usfirst.frc.team2847.robot.commands.AutoAnglerCommand;
 import org.usfirst.frc.team2847.robot.commands.KickBallCommand;
 import org.usfirst.frc.team2847.robot.commands.ShootCommand;
 import org.usfirst.frc.team2847.robot.commands.VisionCommand;
@@ -27,9 +29,12 @@ public class OI {
 	Button shootButton = new JoystickButton(fancyStick, RobotMap.shootButton),
 			pullButton = new JoystickButton(fancyStick, RobotMap.pullButton),
 			kickBallButton = new JoystickButton(fancyStick, RobotMap.kickBallButton),
-			liftUpButton = new JoystickButton(fancyStick, RobotMap.anglerUpButton),
-			liftDropButton = new JoystickButton(fancyStick, RobotMap.anglerDownButton),
-			autoTargetButton = new JoystickButton(fancyStick, RobotMap.autoTargetButton);
+			anglerUpButton = new JoystickButton(fancyStick, RobotMap.anglerUpButton),
+			anglerDownButton = new JoystickButton(fancyStick, RobotMap.anglerDownButton),
+			autoTargetButton = new JoystickButton(fancyStick, RobotMap.autoTargetButton),
+			highAnglerButton = new JoystickButton(fancyStick, RobotMap.highAnglerButton),
+			flatAnglerButton = new JoystickButton(fancyStick, RobotMap.flatAnglerButton),
+			lowAnglerButton = new JoystickButton(fancyStick, RobotMap.lowAnglerButton);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -43,6 +48,12 @@ public class OI {
 		pullButton.whileHeld(new ShootCommand(-RobotMap.shootSpeed));
 		kickBallButton.whileHeld(new KickBallCommand());
 		autoTargetButton.whenPressed(new VisionCommand(RobotMap.setpointValue));
+		highAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointHigh));
+		flatAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointFlat));
+		lowAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointLow));
+		anglerUpButton.whenPressed(new AnglerCommand(RobotMap.anglerSpeed));
+		anglerDownButton.whenPressed(new AnglerCommand(-RobotMap.anglerSpeed));
+
 	}
 
 	public double getLeftJoyY() {

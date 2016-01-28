@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ShootCommand extends Command {
+public class AnglerCommand extends Command {
+
 	double speed;
 
-	public ShootCommand(double speed) {
+	public AnglerCommand(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.shooter);
+		requires(Robot.angler);
 		this.speed = speed;
 	}
 
@@ -23,7 +24,13 @@ public class ShootCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.shooter.spinShooters(speed);
+		if (Robot.angler.outOfRange() == -1 && speed < 0) {
+			Robot.angler.moveAngler(-speed);
+		} else if (Robot.angler.outOfRange() == 1 && speed > 0) {
+			Robot.angler.moveAngler(-speed);
+		} else {
+			Robot.angler.moveAngler(speed);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -33,7 +40,7 @@ public class ShootCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.shooter.spinShooters(0);
+		Robot.angler.moveAngler(0);
 	}
 
 	// Called when another command which requires one or more of the same

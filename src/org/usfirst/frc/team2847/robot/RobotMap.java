@@ -42,8 +42,13 @@ public class RobotMap {
 	public static int anglerUpButton = 4;
 	public static int kickBallButton = 5;
 	public static int autoTargetButton = 6;
+	public static int highAnglerButton = 7;
+	public static int flatAnglerButton = 8;
+	public static int lowAnglerButton = 9;
 
 	// Sensors
+
+	public static int anglerGyro = 0;
 
 	// PID TUNE
 	public static double kDriveP = 0.5;
@@ -53,10 +58,13 @@ public class RobotMap {
 	public static double kAnglerI = 0;
 	public static double kAnglerD = 0.33;
 	public static int setpointValue = 300;
-	public static double armSetpointHigh = 25;
-	public static double armSetpointLow = -12;
-	public static double armSetpointFlat = 0;
+	public static double anglerSetpointHigh = 25;
+	public static double anglerSetpointFlat = 0;
+	public static double anglerSetpointLow = -12;
+	public static int kickHitAngle = 110;
+	public static int kickDefaultAngle = 0;
 
 	// SPEEDS
 	public static double shootSpeed = 1;
+	public static double anglerSpeed = 1;
 }

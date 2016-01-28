@@ -20,10 +20,9 @@ public class Drivetrain extends PIDSubsystem {
 	double maxArea = 0;
 	double greenX = 0;
 	double greenY = 0;
+	double offsetX;
 
 	int arrayNum = 0;
-
-	boolean returnAreaType;
 
 	public Drivetrain() {
 		// Use these to get going:
@@ -81,16 +80,10 @@ public class Drivetrain extends PIDSubsystem {
 		greenY = greenYArray[arrayNum];
 	}
 
-	double offsetX;
-
 	public double offsetCalc() {
 		this.useCenter();
 		offsetX = 320 - greenX;
 		return offsetX;
-	}
-
-	public void setReturnType(boolean type) {
-		returnAreaType = type;
 	}
 
 	protected double returnPIDInput() {

@@ -40,13 +40,13 @@ public class Shooter extends Subsystem {
 		int i = 0;
 		while (i < 20) {
 			if (i < 4) {
-				this.setKickAngle(0);
+				this.setKickAngle(RobotMap.kickDefaultAngle);
 				return false;
 			} else if (i >= 4 && i <= 18) {
-				this.setKickAngle(110);
+				this.setKickAngle(RobotMap.kickHitAngle);
 				return false;
 			} else if (i > 18) {
-				this.setKickAngle(0);
+				this.setKickAngle(RobotMap.kickDefaultAngle);
 				return true;
 			}
 			i++;
