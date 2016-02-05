@@ -27,7 +27,7 @@ public class RobotMap {
 	public static int anglerWindowMotor = 6;
 
 	// Actuators
-	public static int kickServo = 1;
+	public static int kickServo = 7;
 
 	// Joysticks
 	public static int leftJoy = 1;
@@ -45,6 +45,7 @@ public class RobotMap {
 	public static int highAnglerButton = 7;
 	public static int flatAnglerButton = 8;
 	public static int lowAnglerButton = 9;
+	public static int kickNShootButton = 12;
 
 	// Sensors
 

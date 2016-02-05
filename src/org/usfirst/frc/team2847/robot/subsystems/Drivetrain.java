@@ -25,7 +25,7 @@ public class Drivetrain extends PIDSubsystem {
 	int arrayNum = 0;
 
 	// create our drivetrain object
-	RobotDrive driveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearLeftDrive, RobotMap.frontRightDrive,
+	RobotDrive myDriveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearLeftDrive, RobotMap.frontRightDrive,
 			RobotMap.rearRightDrive);
 
 	public Drivetrain() {
@@ -46,7 +46,7 @@ public class Drivetrain extends PIDSubsystem {
 
 	// make the method for our drivetrain
 	public void manDrive(double leftValue, double rightValue) {
-		driveTrain.tankDrive(leftValue, rightValue);
+		myDriveTrain.tankDrive(leftValue, rightValue);
 	}
 
 	/*
@@ -55,28 +55,40 @@ public class Drivetrain extends PIDSubsystem {
 	 * biggest value in our array we do this to find out which contour is our
 	 * target this should filter out any minor interference in the camera
 	 */
-	public void findMaxArea() {
+
+	public boolean isContours() {
 		Robot.table.getNumberArray("area", greenAreasArray);
-		for (int counter = 0; counter < greenAreasArray.length; counter++) {
-			if (greenAreasArray[counter] > maxArea) {
-				maxArea = greenAreasArray[counter];
-				arrayNum = counter;
-			}
+		if (greenAreasArray.length > 1) {
+			return true;
+		} else {
+			return false;
 		}
-		System.out.println(maxArea);
+	}
+
+	public void findMaxArea() {
+		if (isContours()) {
+			for (int counter = 0; counter < greenAreasArray.length; counter++) {
+				if (greenAreasArray[counter] > maxArea) {
+					maxArea = greenAreasArray[counter];
+					arrayNum = counter;
+				}
+			}
+			System.out.println(maxArea);
+		}
 	}
 
 	public void updateArea() {
-		Robot.table.getNumberArray("area", greenAreasArray);
 		findMaxArea();
 	}
 
 	public void useCenter() {
 		this.updateArea();
-		Robot.table.getNumberArray("centerX", greenXArray);
-		Robot.table.putNumberArray("centerY", greenYArray);
-		greenX = greenXArray[arrayNum];
-		greenY = greenYArray[arrayNum];
+		if (isContours()) {
+			Robot.table.getNumberArray("centerX", greenXArray);
+			Robot.table.putNumberArray("centerY", greenYArray);
+			greenX = greenXArray[arrayNum];
+			greenY = greenYArray[arrayNum];
+		}
 	}
 
 	public double offsetCalc() {

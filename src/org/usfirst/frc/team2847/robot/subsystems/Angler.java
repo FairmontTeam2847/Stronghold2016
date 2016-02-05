@@ -21,7 +21,7 @@ public class Angler extends PIDSubsystem {
 		// setSetpoint() - Sets where the PID controller should move the system
 		// to
 		// enable() - Enables the PID controller.
-
+		setPercentTolerance(5.0);
 		windowMotor = new Talon(RobotMap.anglerWindowMotor);
 		anglerGyro = new AnalogGyro(RobotMap.anglerGyro);
 

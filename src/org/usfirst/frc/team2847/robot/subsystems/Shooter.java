@@ -49,23 +49,34 @@ public class Shooter extends Subsystem {
 		return kickServo.getAngle();
 	}
 
-	public boolean autoKick() {
-		int i = 0;
-		while (i < 20) {
-			if (i < 4) {
-				this.setKickAngle(RobotMap.kickDefaultAngle);
-				return false;
-			} else if (i >= 4 && i <= 18) {
-				this.setKickAngle(RobotMap.kickHitAngle);
-				return false;
-			} else if (i > 18) {
-				this.setKickAngle(RobotMap.kickDefaultAngle);
-				return true;
+	public boolean doneKicking;
+
+	Thread kickThread = new Thread() {
+		public void run() {
+			int i = 0;
+			for (; i < 20; i++) {
+				if (i == 1) {
+					setKickAngle(RobotMap.kickDefaultAngle);
+					doneKicking = false;
+				} else if (i == 4) {
+					setKickAngle(RobotMap.kickHitAngle);
+					doneKicking = false;
+				} else if (i == 15) {
+					setKickAngle(RobotMap.kickDefaultAngle);
+					doneKicking = true;
+				}
+				Timer.delay(0.05);
+
 			}
-			i++;
-			Timer.delay(0.05);
+			doneKicking = true;
+
+			kickThread.interrupt();
 		}
-		return true;
+	};
+
+	public void autoKick() {
+
+		kickThread.run();
 
 	}
 

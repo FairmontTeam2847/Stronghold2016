@@ -3,6 +3,7 @@ package org.usfirst.frc.team2847.robot;
 import org.usfirst.frc.team2847.robot.commands.AnglerCommand;
 import org.usfirst.frc.team2847.robot.commands.AutoAnglerCommand;
 import org.usfirst.frc.team2847.robot.commands.KickBallCommand;
+import org.usfirst.frc.team2847.robot.commands.KickNShootCommandGroup;
 import org.usfirst.frc.team2847.robot.commands.ShootCommand;
 import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 
@@ -34,7 +35,8 @@ public class OI {
 			autoTargetButton = new JoystickButton(fancyStick, RobotMap.autoTargetButton),
 			highAnglerButton = new JoystickButton(fancyStick, RobotMap.highAnglerButton),
 			flatAnglerButton = new JoystickButton(fancyStick, RobotMap.flatAnglerButton),
-			lowAnglerButton = new JoystickButton(fancyStick, RobotMap.lowAnglerButton);
+			lowAnglerButton = new JoystickButton(fancyStick, RobotMap.lowAnglerButton),
+			kickNShootButton = new JoystickButton(fancyStick, RobotMap.kickNShootButton);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -53,7 +55,7 @@ public class OI {
 		lowAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointLow));
 		anglerUpButton.whenPressed(new AnglerCommand(RobotMap.anglerSpeed));
 		anglerDownButton.whenPressed(new AnglerCommand(-RobotMap.anglerSpeed));
-
+		kickNShootButton.whenPressed(new KickNShootCommandGroup());
 	}
 
 	public double getLeftJoyY() {
