@@ -24,6 +24,10 @@ public class Drivetrain extends PIDSubsystem {
 
 	int arrayNum = 0;
 
+	// create our drivetrain object
+	RobotDrive driveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearLeftDrive, RobotMap.frontRightDrive,
+			RobotMap.rearRightDrive);
+
 	public Drivetrain() {
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system
@@ -31,7 +35,6 @@ public class Drivetrain extends PIDSubsystem {
 		// enable() - Enables the PID controller.
 		super("Drivetrain", RobotMap.kDriveP, RobotMap.kDriveI, RobotMap.kDriveD);
 		setPercentTolerance(5.0);
-		Robot.table.putNumberArray("area", greenAreasArray);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -41,12 +44,8 @@ public class Drivetrain extends PIDSubsystem {
 		setDefaultCommand(new JoystickDrive());
 	}
 
-	// create our drivetrain object
-	RobotDrive driveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearLeftDrive, RobotMap.frontRightDrive,
-			RobotMap.rearRightDrive);
-
 	// make the method for our drivetrain
-	public void tankDrive(double leftValue, double rightValue) {
+	public void manDrive(double leftValue, double rightValue) {
 		driveTrain.tankDrive(leftValue, rightValue);
 	}
 
@@ -97,11 +96,11 @@ public class Drivetrain extends PIDSubsystem {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
 		if (offsetCalc() > 0) {
-			this.tankDrive(output * (greenX / 320), output);
+			this.manDrive(output * (greenX / 320), output);
 		} else if (offsetCalc() < 0) {
-			this.tankDrive(output, output * (greenX / 320));
+			this.manDrive(output, output * (greenX / 320));
 		} else {
-			this.tankDrive(output, output);
+			this.manDrive(output, output);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2847.robot.subsystems;
 
 import org.usfirst.frc.team2847.robot.RobotMap;
+import org.usfirst.frc.team2847.robot.commands.ShootCommand;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Talon;
@@ -18,10 +19,22 @@ public class Shooter extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new ShootCommand(0));
 	}
 
-	Talon leftShooter = new Talon(RobotMap.leftShooterMotor), rightShooter = new Talon(RobotMap.rightShooterMotor);
+	// Talon leftShooter;
+	// Talon rightShooter;
+	// Servo kickServo;
+
+	Talon leftShooter = new Talon(RobotMap.leftShooterMotor);
+	Talon rightShooter = new Talon(RobotMap.rightShooterMotor);
 	Servo kickServo = new Servo(RobotMap.kickServo);
+
+	// public Shooter() {
+	// leftShooter = new Talon(RobotMap.leftShooterMotor);
+	// rightShooter = new Talon(RobotMap.rightShooterMotor);
+	// kickServo = new Servo(RobotMap.kickServo);
+	// }
 
 	public void spinShooters(double speed) {
 		leftShooter.set(speed);

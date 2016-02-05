@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 public class Angler extends PIDSubsystem {
 
 	// Initialize your subsystem here
-	Talon windowMotor = new Talon(RobotMap.anglerWindowMotor);
-	AnalogGyro anglerGyro = new AnalogGyro(RobotMap.anglerGyro);
+	Talon windowMotor;
+	AnalogGyro anglerGyro;
 
 	public Angler() {
 		super("Drivetrain", RobotMap.kAnglerP, RobotMap.kAnglerI, RobotMap.kAnglerD);
@@ -21,6 +21,9 @@ public class Angler extends PIDSubsystem {
 		// setSetpoint() - Sets where the PID controller should move the system
 		// to
 		// enable() - Enables the PID controller.
+
+		windowMotor = new Talon(RobotMap.anglerWindowMotor);
+		anglerGyro = new AnalogGyro(RobotMap.anglerGyro);
 
 	}
 

@@ -24,14 +24,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static final Shooter shooter = new Shooter();
-	public static final Angler angler = new Angler();
-	public static final Drivetrain drivetrain = new Drivetrain();
-
 	public static OI oi;
 
-	public static final NetworkTable table = NetworkTable.getTable("GRIP/myLinesReport");
+	public static ExampleSubsystem exampleSubsystem;
+	public static Shooter shooter;
+	public static Angler angler;
+	public static Drivetrain drivetrain;
+
+	public static NetworkTable table;
 
 	Command autonomousCommand;
 	SendableChooser chooser;
@@ -41,7 +41,15 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		exampleSubsystem = new ExampleSubsystem();
+		shooter = new Shooter();
+		angler = new Angler();
+		drivetrain = new Drivetrain();
+
 		oi = new OI();
+
+		table = NetworkTable.getTable("GRIP/myLinesReport");
+
 		chooser = new SendableChooser();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
