@@ -2,9 +2,8 @@ package org.usfirst.frc.team2847.robot;
 
 import org.usfirst.frc.team2847.robot.commands.AnglerCommand;
 import org.usfirst.frc.team2847.robot.commands.AutoAnglerCommand;
-import org.usfirst.frc.team2847.robot.commands.KickBallCommand;
 import org.usfirst.frc.team2847.robot.commands.KickNShootCommandGroup;
-import org.usfirst.frc.team2847.robot.commands.ShootCommand;
+import org.usfirst.frc.team2847.robot.commands.SetShooterSpeedCommand;
 import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -46,9 +45,9 @@ public class OI {
 	// Once you have a button, it's trivial to bind it to a button in one of
 	// three ways:
 	public OI() {
-		shootButton.whileHeld(new ShootCommand(RobotMap.shootSpeed));
-		pullButton.whileHeld(new ShootCommand(-RobotMap.shootSpeed));
-		kickBallButton.whileHeld(new KickBallCommand());
+		shootButton.whileHeld(new SetShooterSpeedCommand(RobotMap.shootSpeed));
+		pullButton.whileHeld(new SetShooterSpeedCommand(-RobotMap.shootSpeed));
+		kickBallButton.whenPressed(new KickNShootCommandGroup());
 		autoTargetButton.whenPressed(new VisionCommand(RobotMap.setpointValue));
 		highAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointHigh));
 		flatAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointFlat));
