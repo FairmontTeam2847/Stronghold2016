@@ -2,7 +2,9 @@
 package org.usfirst.frc.team2847.robot;
 
 import org.usfirst.frc.team2847.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2847.robot.commands.KickNShootCommandGroup;
 import org.usfirst.frc.team2847.robot.subsystems.Angler;
+import org.usfirst.frc.team2847.robot.subsystems.Arm;
 import org.usfirst.frc.team2847.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2847.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2847.robot.subsystems.Shooter;
@@ -13,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Angler angler;
 	public static Drivetrain drivetrain;
+	public static Arm arm;
 
 	public static NetworkTable table;
 
@@ -44,16 +46,21 @@ public class Robot extends IterativeRobot {
 		exampleSubsystem = new ExampleSubsystem();
 		shooter = new Shooter();
 		angler = new Angler();
+		arm = new Arm();
 		drivetrain = new Drivetrain();
+
+		table = NetworkTable.getTable("GRIP/myContoursReport");
 
 		oi = new OI();
 
-		table = NetworkTable.getTable("GRIP/myLinesReport");
-
 		chooser = new SendableChooser();
 		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		chooser.addObject("My Auto", new KickNShootCommandGroup());
+		// try {
+		// new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -100,6 +107,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		for (double area : table.getNumberArray("GRIP/myContoursReport", new double[0])) {
+			System.out.println("Got contour with area=" + area);
+		}
 	}
 
 	public void teleopInit() {
@@ -116,6 +126,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		Robot.oi.updateDash();
 	}
 
 	/**

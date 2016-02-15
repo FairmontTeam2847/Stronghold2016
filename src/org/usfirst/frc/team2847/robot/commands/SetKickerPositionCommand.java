@@ -12,6 +12,7 @@ public class SetKickerPositionCommand extends Command {
 
 	public SetKickerPositionCommand(double angle) {
 		// Use requires() here to declare subsystem dependencies
+		super("Shooter" + "angle" + angle);
 		requires(Robot.shooter);
 		this.angle = angle;
 	}

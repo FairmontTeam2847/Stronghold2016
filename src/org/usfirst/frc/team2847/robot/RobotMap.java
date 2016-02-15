@@ -18,21 +18,24 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 
 	// Motors
-	public static int frontLeftDrive = 0;
-	public static int frontRightDrive = 1;
-	public static int rearLeftDrive = 2;
-	public static int rearRightDrive = 3;
-	public static int leftShooterMotor = 4;
-	public static int rightShooterMotor = 5;
-	public static int anglerWindowMotor = 6;
+	public static int frontLeftDrive = 1;
+	// public static int frontRightDrive = ;
+	// public static int rearLeftDrive = ;
+	public static int rearRightDrive = 4;
+	public static int leftShooterMotor = 6;
+	public static int rightShooterMotor = 7;
+	public static int anglerWindowLeftMotor = 8;
+	public static int anglerWindowRightMotor = 9;
+	public static int armwindowMotor1 = 5;
+	public static int armwindowMotor2 = 0;
 
 	// Actuators
-	public static int kickServo = 7;
+	public static int kickServo = 2;
 
 	// Joysticks
-	public static int leftJoy = 1;
-	public static int rightJoy = 2;
-	public static int fancyJoy = 3;
+	public static int leftJoy = 0;
+	public static int rightJoy = 1;
+	public static int fancyJoy = 2;
 
 	// Buttons
 
@@ -46,26 +49,30 @@ public class RobotMap {
 	public static int flatAnglerButton = 8;
 	public static int lowAnglerButton = 9;
 	public static int kickNShootButton = 12;
+	public static int arm1UpButton = 10;
 
 	// Sensors
 
 	public static int anglerGyro = 0;
+	public static int lowLimit = 0;
+	public static int highLimit = 1;
 
 	// PID TUNE
 	public static double kDriveP = 0.5;
 	public static double kDriveI = 0;
 	public static double kDriveD = 0.33;
-	public static double kAnglerP = 0.5;
-	public static double kAnglerI = 0;
-	public static double kAnglerD = 0.33;
+	public static double kAnglerP = 0.9;
+	public static double kAnglerI = 0.1;
+	public static double kAnglerD = 0.1;
 	public static int setpointValue = 300;
 	public static double anglerSetpointHigh = 40;
-	public static double anglerSetpointFlat = 0;
-	public static double anglerSetpointLow = -1;
-	public static int kickHitAngle = 110;
-	public static int kickDefaultAngle = 0;
+	public static double anglerSetpointFlat = 2;
+	public static double anglerSetpointLow = 0;
+	public static int kickHitAngle = 160;
+	public static int kickDefaultAngle = 75;
 
 	// SPEEDS
 	public static double shootSpeed = 1;
-	public static double anglerSpeed = 0.3;
+	public static double anglerSpeed = 0.95;
+	public static double armSpeed = 0.3;
 }

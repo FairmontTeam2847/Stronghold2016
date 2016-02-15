@@ -13,6 +13,7 @@ public class SetShooterSpeedCommand extends Command {
 	public SetShooterSpeedCommand(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		super("Shooter" + speed);
 		requires(Robot.shooter);
 		this.speed = speed;
 	}

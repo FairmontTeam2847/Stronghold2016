@@ -14,6 +14,7 @@ public class AnglerCommand extends Command {
 	public AnglerCommand(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		super("Angler" + speed);
 		requires(Robot.angler);
 		this.speed = speed;
 	}
@@ -24,13 +25,14 @@ public class AnglerCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.angler.outOfRange() == -1 && speed < 0) {
-			Robot.angler.moveAngler(-speed);
-		} else if (Robot.angler.outOfRange() == 1 && speed > 0) {
-			Robot.angler.moveAngler(-speed);
-		} else {
-			Robot.angler.moveAngler(speed);
-		}
+		// if (Robot.angler.outOfRange() == -1 && speed < 0) {
+		// Robot.angler.moveAngler(-speed);
+		// } else if (Robot.angler.outOfRange() == 1 && speed > 0) {
+		// Robot.angler.moveAngler(-speed);
+		// } else {
+		// Robot.angler.moveAngler(speed);
+		// }
+		Robot.angler.moveAngler(speed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

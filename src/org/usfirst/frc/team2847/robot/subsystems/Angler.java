@@ -3,6 +3,7 @@ package org.usfirst.frc.team2847.robot.subsystems;
 import org.usfirst.frc.team2847.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
@@ -12,8 +13,11 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 public class Angler extends PIDSubsystem {
 
 	// Initialize your subsystem here
-	Talon windowMotor;
-	AnalogGyro anglerGyro;
+	Talon leftWindowMotor;
+	Talon rightWindowMotor;
+	public AnalogGyro anglerGyro;
+
+	DigitalInput lowLimit, highLimit;
 
 	public Angler() {
 		super("Drivetrain", RobotMap.kAnglerP, RobotMap.kAnglerI, RobotMap.kAnglerD);
@@ -21,10 +25,14 @@ public class Angler extends PIDSubsystem {
 		// setSetpoint() - Sets where the PID controller should move the system
 		// to
 		// enable() - Enables the PID controller.
-		setPercentTolerance(5.0);
-		windowMotor = new Talon(RobotMap.anglerWindowMotor);
-		anglerGyro = new AnalogGyro(RobotMap.anglerGyro);
+		setAbsoluteTolerance(3.0);
+		leftWindowMotor = new Talon(RobotMap.anglerWindowLeftMotor);
+		rightWindowMotor = new Talon(RobotMap.anglerWindowRightMotor);
 
+		lowLimit = new DigitalInput(RobotMap.lowLimit);
+		highLimit = new DigitalInput(RobotMap.highLimit);
+
+		anglerGyro = new AnalogGyro(RobotMap.anglerGyro);
 	}
 
 	public void initDefaultCommand() {
@@ -33,7 +41,8 @@ public class Angler extends PIDSubsystem {
 	}
 
 	public void moveAngler(double speed) {
-		windowMotor.set(speed);
+		leftWindowMotor.set(-speed);
+		rightWindowMotor.set(speed);
 	}
 
 	public boolean inRange() {
@@ -42,6 +51,10 @@ public class Angler extends PIDSubsystem {
 		} else {
 			return true;
 		}
+	}
+
+	public double getAngle() {
+		return anglerGyro.getAngle();
 	}
 
 	public int outOfRange() {
@@ -64,6 +77,7 @@ public class Angler extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-		windowMotor.set(output);
+		leftWindowMotor.set(-output);
+		rightWindowMotor.set(output);
 	}
 }

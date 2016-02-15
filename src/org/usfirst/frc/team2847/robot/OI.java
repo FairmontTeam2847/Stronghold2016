@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2847.robot;
 
 import org.usfirst.frc.team2847.robot.commands.AnglerCommand;
+import org.usfirst.frc.team2847.robot.commands.ArmCommand;
 import org.usfirst.frc.team2847.robot.commands.AutoAnglerCommand;
 import org.usfirst.frc.team2847.robot.commands.KickNShootCommandGroup;
 import org.usfirst.frc.team2847.robot.commands.SetShooterSpeedCommand;
@@ -9,6 +10,7 @@ import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -35,7 +37,8 @@ public class OI {
 			highAnglerButton = new JoystickButton(fancyStick, RobotMap.highAnglerButton),
 			flatAnglerButton = new JoystickButton(fancyStick, RobotMap.flatAnglerButton),
 			lowAnglerButton = new JoystickButton(fancyStick, RobotMap.lowAnglerButton),
-			kickNShootButton = new JoystickButton(fancyStick, RobotMap.kickNShootButton);
+			kickNShootButton = new JoystickButton(fancyStick, RobotMap.kickNShootButton),
+			arm1UpButton = new JoystickButton(fancyStick, RobotMap.arm1UpButton);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -52,9 +55,16 @@ public class OI {
 		highAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointHigh));
 		flatAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointFlat));
 		lowAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointLow));
-		anglerUpButton.whenPressed(new AnglerCommand(RobotMap.anglerSpeed));
-		anglerDownButton.whenPressed(new AnglerCommand(-RobotMap.anglerSpeed));
-		kickNShootButton.whenPressed(new KickNShootCommandGroup());
+		anglerUpButton.whileHeld(new AnglerCommand(RobotMap.anglerSpeed));
+		anglerDownButton.whileHeld(new AnglerCommand(-RobotMap.anglerSpeed));
+		arm1UpButton.whileHeld(new ArmCommand(RobotMap.armSpeed));
+	}
+
+	public void updateDash() {
+		SmartDashboard.putData("Shooter", Robot.shooter);
+		SmartDashboard.putData("Drivetrain", Robot.drivetrain);
+		SmartDashboard.putData("Angler", Robot.angler);
+		SmartDashboard.putNumber("angleGyro", Robot.angler.getAngle());
 	}
 
 	public double getLeftJoyY() {

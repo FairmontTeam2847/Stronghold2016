@@ -25,8 +25,7 @@ public class Drivetrain extends PIDSubsystem {
 	int arrayNum = 0;
 
 	// create our drivetrain object
-	RobotDrive myDriveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearLeftDrive, RobotMap.frontRightDrive,
-			RobotMap.rearRightDrive);
+	RobotDrive myDriveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearRightDrive);
 
 	public Drivetrain() {
 		// Use these to get going:

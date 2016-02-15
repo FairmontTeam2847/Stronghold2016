@@ -36,7 +36,7 @@ public class Shooter extends Subsystem {
 	// }
 
 	public void spinShooters(double speed) {
-		leftShooter.set(speed);
+		leftShooter.set(-speed);
 		rightShooter.set(speed);
 	}
 
