@@ -1,11 +1,12 @@
 package org.usfirst.frc.team2847.robot.subsystems;
 
-import org.usfirst.frc.team2847.robot.Robot;
 import org.usfirst.frc.team2847.robot.RobotMap;
 import org.usfirst.frc.team2847.robot.commands.JoystickDrive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -13,9 +14,11 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 public class Drivetrain extends PIDSubsystem {
 
 	// Initialize your subsystem here
+
 	double[] greenAreasArray = {};
 	double[] greenXArray = {};
 	double[] greenYArray = {};
+	double[] defaultValue = new double[0];
 
 	double maxArea = 0;
 	double greenX = 0;
@@ -27,14 +30,19 @@ public class Drivetrain extends PIDSubsystem {
 	// create our drivetrain object
 	RobotDrive myDriveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearRightDrive);
 
+	public NetworkTable table = NetworkTable.getTable("GRIP/myContoursReport");
+
 	public Drivetrain() {
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system
 		// to
 		// enable() - Enables the PID controller.
 		super("Drivetrain", RobotMap.kDriveP, RobotMap.kDriveI, RobotMap.kDriveD);
-		setPercentTolerance(5.0);
+		setAbsoluteTolerance(20.0);
+
+		// viz
 	}
+
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
@@ -48,6 +56,10 @@ public class Drivetrain extends PIDSubsystem {
 		myDriveTrain.tankDrive(leftValue, rightValue);
 	}
 
+	public void arcDrive(double mag, double rot) {
+		myDriveTrain.arcadeDrive(mag, rot);
+	}
+
 	/*
 	 * starts a counter and for each item in the number array compares it to the
 	 * max value from before in the end of the loop we should have max = the
@@ -56,10 +68,12 @@ public class Drivetrain extends PIDSubsystem {
 	 */
 
 	public boolean isContours() {
-		Robot.table.getNumberArray("area", greenAreasArray);
-		if (greenAreasArray.length > 1) {
+		table = NetworkTable.getTable("GRIP/myContoursReport");
+		greenAreasArray = table.getNumberArray("area", defaultValue);
+		if (greenAreasArray.length > 0) {
 			return true;
 		} else {
+			System.out.println("no array");
 			return false;
 		}
 	}
@@ -72,7 +86,7 @@ public class Drivetrain extends PIDSubsystem {
 					arrayNum = counter;
 				}
 			}
-			System.out.println(maxArea);
+			System.out.print(maxArea);
 		}
 	}
 
@@ -83,10 +97,11 @@ public class Drivetrain extends PIDSubsystem {
 	public void useCenter() {
 		this.updateArea();
 		if (isContours()) {
-			Robot.table.getNumberArray("centerX", greenXArray);
-			Robot.table.putNumberArray("centerY", greenYArray);
+			greenXArray = table.getNumberArray("centerX", defaultValue);
+			greenYArray = table.getNumberArray("centerY", defaultValue);
 			greenX = greenXArray[arrayNum];
 			greenY = greenYArray[arrayNum];
+			SmartDashboard.putNumber("greenY", greenY);
 		}
 	}
 
@@ -94,6 +109,11 @@ public class Drivetrain extends PIDSubsystem {
 		this.useCenter();
 		offsetX = 320 - greenX;
 		return offsetX;
+	}
+
+	public void cleanupCrew() {
+		NetworkTable.flush();
+		this.manDrive(0, 0);
 	}
 
 	protected double returnPIDInput() {
@@ -106,12 +126,21 @@ public class Drivetrain extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
+		double go;
+		go = (output * -0.50);
 		if (offsetCalc() > 0) {
-			this.manDrive(output * (greenX / 320), output);
+			this.manDrive(go * (greenX / 320), go);
 		} else if (offsetCalc() < 0) {
-			this.manDrive(output, output * (greenX / 320));
+			this.manDrive(go, go * (greenX / 320));
 		} else {
-			this.manDrive(output, output);
+			this.manDrive(go, go);
 		}
+		// if (offsetCalc() > 0) {
+		// this.arcDrive(go, -(greenX / 320) / 8);
+		// } else if (offsetCalc() < 0) {
+		// this.manDrive(go, (greenX / 320) / 8);
+		// } else {
+		// this.manDrive(go, 0);
+		// }
 	}
 }

@@ -1,11 +1,14 @@
 package org.usfirst.frc.team2847.robot;
 
 import org.usfirst.frc.team2847.robot.commands.AnglerCommand;
+import org.usfirst.frc.team2847.robot.commands.AnglerDownCommand;
+import org.usfirst.frc.team2847.robot.commands.AnglerUpCommand;
+import org.usfirst.frc.team2847.robot.commands.Arm2Command;
 import org.usfirst.frc.team2847.robot.commands.ArmCommand;
-import org.usfirst.frc.team2847.robot.commands.AutoAnglerCommand;
 import org.usfirst.frc.team2847.robot.commands.KickNShootCommandGroup;
 import org.usfirst.frc.team2847.robot.commands.SetShooterSpeedCommand;
 import org.usfirst.frc.team2847.robot.commands.VisionCommand;
+import org.usfirst.frc.team2847.robot.triggers.POVhat;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -30,15 +33,17 @@ public class OI {
 	// BUTTON DECLARE
 	Button shootButton = new JoystickButton(fancyStick, RobotMap.shootButton),
 			pullButton = new JoystickButton(fancyStick, RobotMap.pullButton),
-			kickBallButton = new JoystickButton(fancyStick, RobotMap.kickBallButton),
-			anglerUpButton = new JoystickButton(fancyStick, RobotMap.anglerUpButton),
-			anglerDownButton = new JoystickButton(fancyStick, RobotMap.anglerDownButton),
+			kickBallButton = new JoystickButton(fancyStick, RobotMap.kickNShootButton),
 			autoTargetButton = new JoystickButton(fancyStick, RobotMap.autoTargetButton),
 			highAnglerButton = new JoystickButton(fancyStick, RobotMap.highAnglerButton),
-			flatAnglerButton = new JoystickButton(fancyStick, RobotMap.flatAnglerButton),
 			lowAnglerButton = new JoystickButton(fancyStick, RobotMap.lowAnglerButton),
 			kickNShootButton = new JoystickButton(fancyStick, RobotMap.kickNShootButton),
-			arm1UpButton = new JoystickButton(fancyStick, RobotMap.arm1UpButton);
+			arm1UpButton = new JoystickButton(fancyStick, RobotMap.arm1UpButton),
+			arm1DownButton = new JoystickButton(fancyStick, RobotMap.arm1DownButton),
+			arm2UpButton = new JoystickButton(fancyStick, RobotMap.arm2UpButton),
+			arm2DownButton = new JoystickButton(fancyStick, RobotMap.arm2DownButton);
+
+	POVhat hat = new POVhat(fancyStick);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -49,22 +54,30 @@ public class OI {
 	// three ways:
 	public OI() {
 		shootButton.whileHeld(new SetShooterSpeedCommand(RobotMap.shootSpeed));
-		pullButton.whileHeld(new SetShooterSpeedCommand(-RobotMap.shootSpeed));
+		pullButton.whileHeld(new SetShooterSpeedCommand(RobotMap.pullSpeed));
 		kickBallButton.whenPressed(new KickNShootCommandGroup());
 		autoTargetButton.whenPressed(new VisionCommand(RobotMap.setpointValue));
-		highAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointHigh));
-		flatAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointFlat));
-		lowAnglerButton.whenPressed(new AutoAnglerCommand(RobotMap.anglerSetpointLow));
-		anglerUpButton.whileHeld(new AnglerCommand(RobotMap.anglerSpeed));
-		anglerDownButton.whileHeld(new AnglerCommand(-RobotMap.anglerSpeed));
+		highAnglerButton.whenPressed(new AnglerUpCommand());
+		lowAnglerButton.whenPressed(new AnglerDownCommand());
 		arm1UpButton.whileHeld(new ArmCommand(RobotMap.armSpeed));
+		arm1DownButton.whileHeld(new ArmCommand(-RobotMap.armSpeed));
+		arm2UpButton.whileHeld(new Arm2Command(-RobotMap.armSpeed));
+		arm2DownButton.whileHeld(new Arm2Command(RobotMap.armSpeed));
+
+		hat.Up.whileActive(new AnglerCommand(RobotMap.anglerSpeed));
+		hat.Down.whileActive(new AnglerCommand(RobotMap.anglerDownSpeed));
+
 	}
 
 	public void updateDash() {
 		SmartDashboard.putData("Shooter", Robot.shooter);
 		SmartDashboard.putData("Drivetrain", Robot.drivetrain);
 		SmartDashboard.putData("Angler", Robot.angler);
-		SmartDashboard.putNumber("angleGyro", Robot.angler.getAngle());
+		SmartDashboard.putNumber("Limit switch", Robot.angler.outOfRange());
+		SmartDashboard.putNumber("POV", this.getPOV());
+		// Robot.prefs.getDouble("driveP", RobotMap.kDriveP);
+		// Robot.prefs.getDouble("driveI", RobotMap.kDriveI);
+		// Robot.prefs.getDouble("driveD", RobotMap.kDriveD);
 	}
 
 	public double getLeftJoyY() {
@@ -97,6 +110,10 @@ public class OI {
 
 	public double getFancyJoyThrottle() {
 		return fancyStick.getThrottle();
+	}
+
+	public double getPOV() {
+		return fancyStick.getPOV();
 	}
 
 	// Start the command when the button is pressed and let it run the command

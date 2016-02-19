@@ -38,6 +38,9 @@ public class Shooter extends Subsystem {
 	public void spinShooters(double speed) {
 		leftShooter.set(-speed);
 		rightShooter.set(speed);
+		if (speed < 0) {
+			setKickAngle(RobotMap.kickDefaultAngle);
+		}
 	}
 
 	public void setKickAngle(double angle) {

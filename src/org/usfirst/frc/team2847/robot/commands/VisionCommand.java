@@ -21,6 +21,10 @@ public class VisionCommand extends Command {
 	protected void initialize() {
 		System.out.println(this);
 		Robot.drivetrain.getPIDController().reset();
+		// System.out.println("THROTTLE" + Robot.oi.getFancyJoyThrottle());
+		// Robot.drivetrain.getPIDController().setPID(1 *
+		// Robot.oi.getFancyJoyThrottle(), RobotMap.kDriveI,
+		// RobotMap.kDriveD);
 		Robot.drivetrain.getPIDController().enable();
 		Robot.drivetrain.findMaxArea();
 		Robot.drivetrain.getPIDController().setSetpoint(setpoint);
@@ -43,6 +47,7 @@ public class VisionCommand extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drivetrain.getPIDController().disable();
+		Robot.drivetrain.cleanupCrew();
 		Robot.drivetrain.initDefaultCommand();
 	}
 

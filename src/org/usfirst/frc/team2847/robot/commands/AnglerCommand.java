@@ -25,14 +25,14 @@ public class AnglerCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		// if (Robot.angler.outOfRange() == -1 && speed < 0) {
-		// Robot.angler.moveAngler(-speed);
-		// } else if (Robot.angler.outOfRange() == 1 && speed > 0) {
-		// Robot.angler.moveAngler(-speed);
-		// } else {
+		if (Robot.angler.outOfRange() == -1 && speed < 0) {
+			Robot.angler.moveAngler(-speed * .50);
+		} else if (Robot.angler.outOfRange() == 1 && speed > 0) {
+			Robot.angler.moveAngler(-speed * .50);
+		} else {
+			Robot.angler.moveAngler(speed);
+		}
 		// Robot.angler.moveAngler(speed);
-		// }
-		Robot.angler.moveAngler(speed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

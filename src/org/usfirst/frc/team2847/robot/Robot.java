@@ -2,7 +2,7 @@
 package org.usfirst.frc.team2847.robot;
 
 import org.usfirst.frc.team2847.robot.commands.ExampleCommand;
-import org.usfirst.frc.team2847.robot.commands.KickNShootCommandGroup;
+import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 import org.usfirst.frc.team2847.robot.subsystems.Angler;
 import org.usfirst.frc.team2847.robot.subsystems.Arm;
 import org.usfirst.frc.team2847.robot.subsystems.Drivetrain;
@@ -10,6 +10,7 @@ import org.usfirst.frc.team2847.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2847.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -33,10 +34,10 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Arm arm;
 
-	public static NetworkTable table;
-
 	Command autonomousCommand;
 	SendableChooser chooser;
+
+	public static Preferences prefs;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,15 +48,18 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		angler = new Angler();
 		arm = new Arm();
-		drivetrain = new Drivetrain();
 
-		table = NetworkTable.getTable("GRIP/myContoursReport");
+		NetworkTable.setServerMode();
+		drivetrain = new Drivetrain();
 
 		oi = new OI();
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Default Auto", new ExampleCommand());
-		chooser.addObject("My Auto", new KickNShootCommandGroup());
+		chooser.addObject("My Auto", new VisionCommand(RobotMap.setpointValue));
+
+		// vision area
+
 		// try {
 		// new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
 		// } catch (IOException e) {
@@ -88,7 +92,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = (Command) chooser.getSelected();
+		autonomousCommand = new VisionCommand(RobotMap.setpointValue);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -107,9 +111,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		for (double area : table.getNumberArray("GRIP/myContoursReport", new double[0])) {
-			System.out.println("Got contour with area=" + area);
-		}
+		// for (double area :
+		// drivetrain.table.getNumberArray("GRIP/myContoursReport", new
+		// double[0])) {
+		// System.out.println("Got contour with area=" + area);
+		// }
 	}
 
 	public void teleopInit() {
@@ -127,6 +133,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		Robot.oi.updateDash();
+		// for (double area : table.getNumberArray("GRIP/myContoursReport", new
+		// double[0])) {
+		// System.out.println("Got contour with area=" + area);
+		// }
 	}
 
 	/**

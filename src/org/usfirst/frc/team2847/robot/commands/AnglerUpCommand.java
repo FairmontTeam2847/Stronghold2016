@@ -1,28 +1,24 @@
 package org.usfirst.frc.team2847.robot.commands;
 
 import org.usfirst.frc.team2847.robot.Robot;
+import org.usfirst.frc.team2847.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class AutoAnglerCommand extends Command {
+public class AnglerUpCommand extends Command {
 
-	double setpoint;
-
-	public AutoAnglerCommand(double setpoint) {
+	public AnglerUpCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.angler);
-		this.setpoint = setpoint;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.angler.getPIDController().reset();
-		Robot.angler.getPIDController().enable();
-		Robot.angler.setSetpoint(setpoint);
+		Robot.angler.moveAngler(RobotMap.anglerSpeed * .85);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -31,12 +27,12 @@ public class AutoAnglerCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.angler.onTarget();
+		return Robot.angler.outOfRange() == 1;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.angler.disable();
+		Robot.angler.moveAngler(0);
 	}
 
 	// Called when another command which requires one or more of the same
