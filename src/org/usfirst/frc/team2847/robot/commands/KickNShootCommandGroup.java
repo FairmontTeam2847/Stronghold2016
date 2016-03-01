@@ -14,8 +14,8 @@ public class KickNShootCommandGroup extends CommandGroup {
 		super("KickNShootCommandGroup " + RobotMap.shootSpeed);
 
 		// to get into default position
+
 		addSequential(new SetKickerPositionCommand(RobotMap.kickDefaultAngle));
-		addSequential(new AnglerUpCommand());
 
 		// Start spinning up shooters and give them 2 seconds to reach speed
 		addSequential(new SetShooterSpeedCommand(RobotMap.shootSpeed), 1.5);

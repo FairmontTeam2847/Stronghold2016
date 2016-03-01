@@ -26,7 +26,7 @@ public class Shooter extends Subsystem {
 	// Servo kickServo;
 
 	Talon leftShooter = new Talon(RobotMap.leftShooterMotor);
-	Talon rightShooter = new Talon(RobotMap.rightShooterMotor);
+	// Talon rightShooter = new Talon(RobotMap.rightShooterMotor);
 	Servo kickServo = new Servo(RobotMap.kickServo);
 
 	// public Shooter() {
@@ -37,7 +37,7 @@ public class Shooter extends Subsystem {
 
 	public void spinShooters(double speed) {
 		leftShooter.set(-speed);
-		rightShooter.set(speed);
+		// rightShooter.set(speed);
 		if (speed < 0) {
 			setKickAngle(RobotMap.kickDefaultAngle);
 		}

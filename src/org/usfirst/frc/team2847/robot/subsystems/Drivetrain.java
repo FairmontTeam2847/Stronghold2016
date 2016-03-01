@@ -38,8 +38,9 @@ public class Drivetrain extends PIDSubsystem {
 		// to
 		// enable() - Enables the PID controller.
 		super("Drivetrain", RobotMap.kDriveP, RobotMap.kDriveI, RobotMap.kDriveD);
-		setAbsoluteTolerance(20.0);
-
+		setInputRange(0, RobotMap.camMaxY);
+		setOutputRange(-0.6, 0.6);
+		setAbsoluteTolerance(5.0);
 		// viz
 	}
 
@@ -86,7 +87,7 @@ public class Drivetrain extends PIDSubsystem {
 					arrayNum = counter;
 				}
 			}
-			System.out.print(maxArea);
+			// System.out.print(maxArea);
 		}
 	}
 
@@ -107,7 +108,7 @@ public class Drivetrain extends PIDSubsystem {
 
 	public double offsetCalc() {
 		this.useCenter();
-		offsetX = 320 - greenX;
+		offsetX = (RobotMap.camMaxX / 2) - greenX;
 		return offsetX;
 	}
 
@@ -127,14 +128,16 @@ public class Drivetrain extends PIDSubsystem {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
 		double go;
-		go = (output * -0.50);
-		if (offsetCalc() > 0) {
-			this.manDrive(go * (greenX / 320), go);
-		} else if (offsetCalc() < 0) {
-			this.manDrive(go, go * (greenX / 320));
-		} else {
-			this.manDrive(go, go);
-		}
+		go = (-output);
+		// if (offsetCalc() < 0) {
+		// this.manDrive(go * (greenX / 320), go);
+		// } else if (offsetCalc() > 0) {
+		// this.manDrive(go, go * (greenX / 320));
+		// } else {
+		// this.manDrive(go, go);
+		// }
+		this.arcDrive(go, -(greenX / (RobotMap.camMaxX / 2)) / 4);
+		SmartDashboard.putNumber("error", getPIDController().getError());
 		// if (offsetCalc() > 0) {
 		// this.arcDrive(go, -(greenX / 320) / 8);
 		// } else if (offsetCalc() < 0) {

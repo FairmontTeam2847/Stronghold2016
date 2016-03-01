@@ -3,6 +3,7 @@ package org.usfirst.frc.team2847.robot;
 
 import org.usfirst.frc.team2847.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2847.robot.commands.VisionCommand;
+import org.usfirst.frc.team2847.robot.commands.autoDrive;
 import org.usfirst.frc.team2847.robot.subsystems.Angler;
 import org.usfirst.frc.team2847.robot.subsystems.Arm;
 import org.usfirst.frc.team2847.robot.subsystems.Drivetrain;
@@ -92,7 +93,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = new VisionCommand(RobotMap.setpointValue);
+		autonomousCommand = new autoDrive(2);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -133,10 +134,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		Robot.oi.updateDash();
-		// for (double area : table.getNumberArray("GRIP/myContoursReport", new
-		// double[0])) {
-		// System.out.println("Got contour with area=" + area);
-		// }
 	}
 
 	/**

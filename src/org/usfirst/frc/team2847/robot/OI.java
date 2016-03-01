@@ -6,6 +6,7 @@ import org.usfirst.frc.team2847.robot.commands.AnglerUpCommand;
 import org.usfirst.frc.team2847.robot.commands.Arm2Command;
 import org.usfirst.frc.team2847.robot.commands.ArmCommand;
 import org.usfirst.frc.team2847.robot.commands.KickNShootCommandGroup;
+import org.usfirst.frc.team2847.robot.commands.SetKickerPositionCommand;
 import org.usfirst.frc.team2847.robot.commands.SetShooterSpeedCommand;
 import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 import org.usfirst.frc.team2847.robot.triggers.POVhat;
@@ -38,6 +39,7 @@ public class OI {
 			highAnglerButton = new JoystickButton(fancyStick, RobotMap.highAnglerButton),
 			lowAnglerButton = new JoystickButton(fancyStick, RobotMap.lowAnglerButton),
 			kickNShootButton = new JoystickButton(fancyStick, RobotMap.kickNShootButton),
+			kickButton = new JoystickButton(fancyStick, RobotMap.kickButton),
 			arm1UpButton = new JoystickButton(fancyStick, RobotMap.arm1UpButton),
 			arm1DownButton = new JoystickButton(fancyStick, RobotMap.arm1DownButton),
 			arm2UpButton = new JoystickButton(fancyStick, RobotMap.arm2UpButton),
@@ -56,17 +58,17 @@ public class OI {
 		shootButton.whileHeld(new SetShooterSpeedCommand(RobotMap.shootSpeed));
 		pullButton.whileHeld(new SetShooterSpeedCommand(RobotMap.pullSpeed));
 		kickBallButton.whenPressed(new KickNShootCommandGroup());
+		kickButton.whenPressed(new SetKickerPositionCommand(RobotMap.anglerSetpointHigh));
 		autoTargetButton.whenPressed(new VisionCommand(RobotMap.setpointValue));
 		highAnglerButton.whenPressed(new AnglerUpCommand());
 		lowAnglerButton.whenPressed(new AnglerDownCommand());
-		arm1UpButton.whileHeld(new ArmCommand(RobotMap.armSpeed));
-		arm1DownButton.whileHeld(new ArmCommand(-RobotMap.armSpeed));
-		arm2UpButton.whileHeld(new Arm2Command(-RobotMap.armSpeed));
-		arm2DownButton.whileHeld(new Arm2Command(RobotMap.armSpeed));
+		arm1UpButton.whileHeld(new ArmCommand(RobotMap.armSpeed * getFancyJoyThrottle()));
+		arm1DownButton.whileHeld(new ArmCommand(-RobotMap.armSpeed * getFancyJoyThrottle()));
+		arm2UpButton.whileHeld(new Arm2Command(-RobotMap.armSpeed * getFancyJoyThrottle()));
+		arm2DownButton.whileHeld(new Arm2Command(RobotMap.armSpeed * getFancyJoyThrottle()));
 
 		hat.Up.whileActive(new AnglerCommand(RobotMap.anglerSpeed));
 		hat.Down.whileActive(new AnglerCommand(RobotMap.anglerDownSpeed));
-
 	}
 
 	public void updateDash() {
@@ -74,7 +76,6 @@ public class OI {
 		SmartDashboard.putData("Drivetrain", Robot.drivetrain);
 		SmartDashboard.putData("Angler", Robot.angler);
 		SmartDashboard.putNumber("Limit switch", Robot.angler.outOfRange());
-		SmartDashboard.putNumber("POV", this.getPOV());
 		// Robot.prefs.getDouble("driveP", RobotMap.kDriveP);
 		// Robot.prefs.getDouble("driveI", RobotMap.kDriveI);
 		// Robot.prefs.getDouble("driveD", RobotMap.kDriveD);

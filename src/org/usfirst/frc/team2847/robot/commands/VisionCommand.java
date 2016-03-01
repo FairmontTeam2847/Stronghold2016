@@ -41,19 +41,28 @@ public class VisionCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.drivetrain.getPIDController().onTarget();
+		if (Robot.drivetrain.getPIDController().getError() < 5 && Robot.drivetrain.getPIDController().getError() > -5) {
+			// if (Robot.drivetrain.getPIDController().onTarget()) {
+			System.out.println("visdone");
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drivetrain.getPIDController().disable();
 		Robot.drivetrain.cleanupCrew();
-		Robot.drivetrain.initDefaultCommand();
+		new RotCommand().start();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		end();
+		Robot.drivetrain.getPIDController().disable();
+		Robot.drivetrain.cleanupCrew();
+		Robot.drivetrain.initDefaultCommand();
 	}
 }
