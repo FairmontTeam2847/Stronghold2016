@@ -18,14 +18,10 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 
 	// Motors
-	public static int frontLeftDrive = 1;
-	// public static int frontRightDrive = ;
-	// public static int rearLeftDrive = ;
-	public static int rearRightDrive = 4;
-	public static int leftShooterMotor = 6;
-	// public static int rightShooterMotor = 7;
-	// public static int anglerWindowLeftMotor = 8;
-	public static int anglerWindowRightMotor = 9;
+	public static int leftDriveMotors = 1;
+	public static int rightDriveMotors = 4;
+	public static int shooterMotors = 6;
+	public static int anglerWindowMotors = 9;
 	public static int armwindowMotor1 = 5;
 	public static int armwindowMotor2 = 0;
 
@@ -66,10 +62,9 @@ public class RobotMap {
 	public static double kAnglerD = 0.1;
 	public static int setpointValue = 30;
 	public static double anglerSetpointHigh = 40;
-	public static double anglerSetpointFlat = 2;
 	public static double anglerSetpointLow = 0;
 	public static int kickHitAngle = 160;
-	public static int kickDefaultAngle = 40;
+	public static int kickDefaultAngle = 41;
 
 	// VISION
 	public static int camMaxX = 400;

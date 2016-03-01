@@ -1,13 +1,11 @@
 
 package org.usfirst.frc.team2847.robot;
 
-import org.usfirst.frc.team2847.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 import org.usfirst.frc.team2847.robot.commands.autoDrive;
 import org.usfirst.frc.team2847.robot.subsystems.Angler;
 import org.usfirst.frc.team2847.robot.subsystems.Arm;
 import org.usfirst.frc.team2847.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team2847.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2847.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,7 +27,6 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 
-	public static ExampleSubsystem exampleSubsystem;
 	public static Shooter shooter;
 	public static Angler angler;
 	public static Drivetrain drivetrain;
@@ -45,7 +42,6 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		exampleSubsystem = new ExampleSubsystem();
 		shooter = new Shooter();
 		angler = new Angler();
 		arm = new Arm();
@@ -56,8 +52,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		chooser = new SendableChooser();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		chooser.addObject("My Auto", new VisionCommand(RobotMap.setpointValue));
+		chooser.addDefault("My Auto", new VisionCommand(RobotMap.setpointValue));
 
 		// vision area
 
@@ -93,7 +88,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = new autoDrive(2);
+		autonomousCommand = new autoDrive(2.5);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

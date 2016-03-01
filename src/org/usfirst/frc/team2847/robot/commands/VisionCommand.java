@@ -32,9 +32,7 @@ public class VisionCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.drivetrain.isContours()) {
-			Robot.drivetrain.useCenter();
-		} else {
+		if (!Robot.drivetrain.isContours()) {
 			end();
 		}
 	}

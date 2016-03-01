@@ -28,7 +28,7 @@ public class Drivetrain extends PIDSubsystem {
 	int arrayNum = 0;
 
 	// create our drivetrain object
-	RobotDrive myDriveTrain = new RobotDrive(RobotMap.frontLeftDrive, RobotMap.rearRightDrive);
+	RobotDrive myDriveTrain = new RobotDrive(RobotMap.leftDriveMotors, RobotMap.rightDriveMotors);
 
 	public NetworkTable table = NetworkTable.getTable("GRIP/myContoursReport");
 
@@ -41,7 +41,6 @@ public class Drivetrain extends PIDSubsystem {
 		setInputRange(0, RobotMap.camMaxY);
 		setOutputRange(-0.6, 0.6);
 		setAbsoluteTolerance(5.0);
-		// viz
 	}
 
 	// Put methods for controlling this subsystem
@@ -91,12 +90,8 @@ public class Drivetrain extends PIDSubsystem {
 		}
 	}
 
-	public void updateArea() {
-		findMaxArea();
-	}
-
 	public void useCenter() {
-		this.updateArea();
+		this.findMaxArea();
 		if (isContours()) {
 			greenXArray = table.getNumberArray("centerX", defaultValue);
 			greenYArray = table.getNumberArray("centerY", defaultValue);
@@ -110,6 +105,14 @@ public class Drivetrain extends PIDSubsystem {
 		this.useCenter();
 		offsetX = (RobotMap.camMaxX / 2) - greenX;
 		return offsetX;
+	}
+
+	public double timeSinceInit() {
+		return getCurrentCommand().timeSinceInitialized();
+	}
+
+	public void cancelCommand() {
+		getCurrentCommand().cancel();
 	}
 
 	public void cleanupCrew() {

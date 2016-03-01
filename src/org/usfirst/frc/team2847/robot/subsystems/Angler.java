@@ -12,14 +12,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Angler extends Subsystem {
 
 	// Initialize your subsystem here
-	// Talon leftWindowMotor;
-	Talon rightWindowMotor;
+	Talon windowMotor;
 
 	DigitalInput lowLimit, highLimit;
 
 	public Angler() {
-		// leftWindowMotor = new Talon(RobotMap.anglerWindowLeftMotor);
-		rightWindowMotor = new Talon(RobotMap.anglerWindowRightMotor);
+		windowMotor = new Talon(RobotMap.anglerWindowMotors);
 
 		lowLimit = new DigitalInput(RobotMap.lowLimit);
 		highLimit = new DigitalInput(RobotMap.highLimit);
@@ -32,8 +30,7 @@ public class Angler extends Subsystem {
 	}
 
 	public void moveAngler(double speed) {
-		// leftWindowMotor.set(-speed);
-		rightWindowMotor.set(speed);
+		windowMotor.set(speed);
 	}
 
 	public boolean inRange() {

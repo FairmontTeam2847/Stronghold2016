@@ -25,7 +25,7 @@ public class Shooter extends Subsystem {
 	// Talon rightShooter;
 	// Servo kickServo;
 
-	Talon leftShooter = new Talon(RobotMap.leftShooterMotor);
+	Talon leftShooter = new Talon(RobotMap.shooterMotors);
 	// Talon rightShooter = new Talon(RobotMap.rightShooterMotor);
 	Servo kickServo = new Servo(RobotMap.kickServo);
 
