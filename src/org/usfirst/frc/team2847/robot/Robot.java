@@ -1,7 +1,6 @@
 
 package org.usfirst.frc.team2847.robot;
 
-import org.usfirst.frc.team2847.robot.commands.VisionCommand;
 import org.usfirst.frc.team2847.robot.commands.autoDrive;
 import org.usfirst.frc.team2847.robot.subsystems.Angler;
 import org.usfirst.frc.team2847.robot.subsystems.Arm;
@@ -15,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -52,8 +52,10 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		chooser = new SendableChooser();
-		chooser.addDefault("My Auto", new VisionCommand(RobotMap.setpointValue));
+		chooser.addDefault("My Auto", new autoDrive(2));
+		chooser.addObject("3 second Auto", new autoDrive(3));
 
+		SmartDashboard.putData("Autonomous Chooser", chooser);
 		// vision area
 
 		// try {
@@ -88,11 +90,10 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = new autoDrive(2.5);
-
+		autonomousCommand = (Command) chooser.getSelected();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+		 * "Default"); switch (autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
